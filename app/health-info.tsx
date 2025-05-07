@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { db } from '../firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { useRouter } from 'expo-router';
 
 export default function HealthInfoScreen() {
   const [name, setName] = useState('');

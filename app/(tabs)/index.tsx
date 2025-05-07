@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import * as Location from 'expo-location';
-import { db } from '../../firebase';
-import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
 import * as SMS from 'expo-sms';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import React from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { db } from '../../firebase';
 
 const HomeScreen = () => {
   const handlePanicButtonPress = async () => {
@@ -23,12 +23,23 @@ const HomeScreen = () => {
         const contacts = JSON.parse(saved);
         numbers = contacts.map((c: any) => c.phoneNumbers?.[0]?.number).filter(Boolean);
       }
-      // 3. Kullanıcı adını al (ör: AsyncStorage'dan)
+      // 3. Kullanıcı adını ve userId'yi al
       const userInfo = await AsyncStorage.getItem('userInfo');
       const user = userInfo ? JSON.parse(userInfo) : {};
-      // 4. SMS mesajı hazırla
+      const userId = await AsyncStorage.getItem('userId');
+      // 4. Firestore'a acil durum kaydı ekle (userId ile)
+      if (userId) {
+        await addDoc(collection(db, 'panicEvents'), {
+          userId,
+          userName: user.name || '',
+          timestamp: Timestamp.now(),
+          latitude: loc.coords.latitude,
+          longitude: loc.coords.longitude,
+        });
+      }
+      // 5. SMS mesajı hazırla
       const message = `ACİL DURUM! ${user.name || ''} acil durumda. Konum: https://maps.google.com/?q=${loc.coords.latitude},${loc.coords.longitude}`;
-      // 5. SMS gönder
+      // 6. SMS gönder
       if (numbers.length > 0) {
         const isAvailable = await SMS.isAvailableAsync();
         if (isAvailable) {

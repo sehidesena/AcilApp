@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
 import Constants from 'expo-constants';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 
 export default function MapScreen() {
   const [location, setLocation] = useState<any>(null);
@@ -27,7 +27,7 @@ export default function MapScreen() {
   const fetchNearbyPlaces = async (coords: { latitude: number; longitude: number }) => {
     try {
       const apiKey = Constants.expoConfig?.extra?.GOOGLE_PLACES_API_KEY;
-      const types = ['hospital', 'police', 'park']; // park: toplanma alanı için
+      const types = ['hospital', 'police', 'park', 'local_government_office']; // zabıta için local_government_office eklendi
       let allResults: any[] = [];
       for (const type of types) {
         const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords.latitude},${coords.longitude}&radius=3000&type=${type}&key=${apiKey}`;
@@ -74,6 +74,7 @@ export default function MapScreen() {
               pinColor={
                 place.type === 'hospital' ? 'red' :
                 place.type === 'police' ? 'blue' :
+                place.type === 'local_government_office' ? 'blue' : // zabıta da mavi
                 'green'
               }
             />
