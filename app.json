@@ -9,14 +9,24 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Konumunuzu haritada göstermek için kullanılır."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "package": "com.anonymous.AcilApp"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +47,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "GOOGLE_PLACES_API_KEY": "AIzaSyC6jXAF9efWsKJgMmqT9hAkqZyVElhmghA"
     }
   }
 }

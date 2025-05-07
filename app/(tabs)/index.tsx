@@ -1,75 +1,97 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import * as Location from 'expo-location';
+import { db } from '../../firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SMS from 'expo-sms';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const HomeScreen = () => {
+  const handlePanicButtonPress = async () => {
+    try {
+      // 1. Konum al
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Konum izni reddedildi');
+        return;
+      }
+      let loc = await Location.getCurrentPositionAsync({});
+      // 2. Acil kişileri al
+      const saved = await AsyncStorage.getItem('emergencyContacts');
+      let numbers = [];
+      if (saved) {
+        const contacts = JSON.parse(saved);
+        numbers = contacts.map((c: any) => c.phoneNumbers?.[0]?.number).filter(Boolean);
+      }
+      // 3. Kullanıcı adını al (ör: AsyncStorage'dan)
+      const userInfo = await AsyncStorage.getItem('userInfo');
+      const user = userInfo ? JSON.parse(userInfo) : {};
+      // 4. SMS mesajı hazırla
+      const message = `ACİL DURUM! ${user.name || ''} acil durumda. Konum: https://maps.google.com/?q=${loc.coords.latitude},${loc.coords.longitude}`;
+      // 5. SMS gönder
+      if (numbers.length > 0) {
+        const isAvailable = await SMS.isAvailableAsync();
+        if (isAvailable) {
+          await SMS.sendSMSAsync(numbers, message);
+          Alert.alert('Acil durum bildirimi gönderildi!');
+        } else {
+          alert('SMS servisi kullanılamıyor.');
+        }
+      } else {
+        alert('Acil kişi seçilmedi!');
+      }
+    } catch (e) {
+      console.log('Hata:', e);
+      alert('Bir hata oluştu.');
+    }
+  };
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Acil Yardım Uygulaması</Text>
+      <TouchableOpacity style={styles.panicButton} onPress={handlePanicButtonPress}>
+        <Text style={styles.panicButtonText}>ACİL</Text>
+      </TouchableOpacity>
+      <Text style={styles.infoText}>Yardım istemek için yukarıdaki butona basın.</Text>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    backgroundColor: '#f0f0f0',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 40,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  panicButton: {
+    backgroundColor: 'red',
+    borderRadius: 80,
+    width: 160,
+    height: 160,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    elevation: 5, // Android için gölge
+    shadowColor: '#000', // iOS için gölge
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  panicButtonText: {
+    color: 'white',
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  infoText: {
+    fontSize: 16,
+    color: '#555',
   },
 });
+
+export default HomeScreen;
