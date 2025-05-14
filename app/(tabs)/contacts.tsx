@@ -84,8 +84,8 @@ export default function ContactsScreen() {
         {selectedContacts.length === 0 ? (
           <Text style={styles.label}>Henüz kişi seçilmedi.</Text>
         ) : (
-          selectedContacts.map((item) => (
-            <View key={item.id} style={styles.contactCard}>
+          selectedContacts.map((item, index) => (
+            <View key={`${item.id}-${index}`} style={styles.contactCard}>
               <Text style={styles.contactText}>{item.name} ({item.phoneNumbers?.[0]?.number || '-'})</Text>
               <TouchableOpacity onPress={() => removeContact(item.id)}>
                 <Text style={styles.removeText}>Kaldır</Text>

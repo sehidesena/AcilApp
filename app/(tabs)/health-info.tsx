@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
 export default function HealthInfoScreen() {
   const [name, setName] = useState('');

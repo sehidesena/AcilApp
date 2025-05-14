@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addDoc, collection, Timestamp } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { db } from '../../firebase';
+import { db } from './firebase';
 
 export default function TabTwoScreen() {
   const [name, setName] = useState('');
@@ -68,7 +68,7 @@ export default function TabTwoScreen() {
 
   const addIllness = () => {
     if (illnessInput.trim() && !illness.includes(illnessInput.trim())) {
-      setIllness([...illness, illnessInput.trim()]);
+      setIllness([...new Set([...illness, illnessInput.trim()])]);
       setIllnessInput('');
     }
   };
@@ -107,8 +107,8 @@ export default function TabTwoScreen() {
               <Button title="Ekle" onPress={addIllness} />
             </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 8 }}>
-              {illness.map((item) => (
-                <TouchableOpacity key={item} style={styles.illnessTag} onPress={() => removeIllness(item)}>
+              {illness.map((item, index) => (
+                <TouchableOpacity key={`${item}-${index}`} style={styles.illnessTag} onPress={() => removeIllness(item)}>
                   <Text style={{ color: '#fff' }}>{item} ✕</Text>
                 </TouchableOpacity>
               ))}

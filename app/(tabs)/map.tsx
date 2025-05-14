@@ -64,7 +64,7 @@ export default function MapScreen() {
           <Marker coordinate={location} title="Şu Anki Konum" />
           {places.map((place, idx) => (
             <Marker
-              key={place.place_id || idx}
+              key={`${place.place_id}-${idx}`}
               coordinate={{
                 latitude: place.geometry.location.lat,
                 longitude: place.geometry.location.lng,
