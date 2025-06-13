@@ -37,21 +37,6 @@ AcilApp, acil durumlarda kullanıcıların konumunu paylaşmasını, yakınında
 
 ## Ekran Görüntüleri
 
-> Uygulamanın ekran görüntülerini buraya ekleyebilirsiniz.
+![image](https://github.com/user-attachments/assets/090d21aa-6456-4006-984a-9932c7216f8f)
+![image](https://github.com/user-attachments/assets/c16d61d9-a0d1-42f6-930a-51b5c3d53e84)
 
-## Katkıda Bulunma
-
-Katkılarınızı memnuniyetle karşılıyoruz! Lütfen önce bir issue açın ve değişiklikleriniz için bir pull request gönderin.
-
-1. Fork'layın ve yeni bir branch oluşturun.
-2. Değişikliklerinizi yapın.
-3. Test edin ve commit'leyin.
-4. Pull request gönderin.
-
-## Lisans
-
-MIT
-
----
-
-Her türlü öneri ve geri bildirim için iletişime geçebilirsiniz.
