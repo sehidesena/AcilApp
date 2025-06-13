@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
+# AcilApp 🚨
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+AcilApp, acil durumlarda kullanıcıların konumunu paylaşmasını, yakınındaki hastane, polis ve zabıta noktalarını harita üzerinde görmesini ve acil kişilere hızlıca ulaşmasını sağlayan modern bir mobil uygulamadır. Proje, React Native ve Expo ile geliştirilmiştir.
 
-## Get started
+## Özellikler
 
-1. Install dependencies
+- 📍 **Konum Tespiti:** Kullanıcının anlık konumunu alır ve haritada gösterir.
+- 🏥 **Yakındaki Acil Noktalar:** Google Places API ile yakın hastane, polis ve zabıta noktalarını listeler ve haritada işaretler.
+- 📲 **Acil Kişilere SMS:** Tanımlı acil kişilere tek tuşla konum içeren SMS gönderir.
+- 👤 **Kullanıcı Bilgileri:** Kullanıcı sağlık ve iletişim bilgilerini kaydedip yönetebilir.
+- 🔒 **Firebase Entegrasyonu:** Kullanıcı verileri güvenli şekilde Firestore'da saklanır.
 
+## Kurulum
+
+1. Depoyu klonlayın:
+   ```bash
+   git clone https://github.com/kullanici-adi/acilapp.git
+   cd acilapp
+   ```
+2. Bağımlılıkları yükleyin:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. Gerekli ortam değişkenlerini ve API anahtarlarını `app.json` veya `.env` dosyasına ekleyin.
+4. Uygulamayı başlatın:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Kullanılan Teknolojiler
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Firebase (Firestore)](https://firebase.google.com/)
+- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
+- [React Native Maps](https://github.com/react-native-maps/react-native-maps)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Ekran Görüntüleri
 
-## Get a fresh project
+> Uygulamanın ekran görüntülerini buraya ekleyebilirsiniz.
 
-When you're ready, run:
+## Katkıda Bulunma
 
-```bash
-npm run reset-project
-```
+Katkılarınızı memnuniyetle karşılıyoruz! Lütfen önce bir issue açın ve değişiklikleriniz için bir pull request gönderin.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+1. Fork'layın ve yeni bir branch oluşturun.
+2. Değişikliklerinizi yapın.
+3. Test edin ve commit'leyin.
+4. Pull request gönderin.
 
-## Learn more
+## Lisans
 
-To learn more about developing your project with Expo, look at the following resources:
+MIT
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Her türlü öneri ve geri bildirim için iletişime geçebilirsiniz.

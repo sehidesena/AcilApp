@@ -24,6 +24,17 @@ export default function MapScreen() {
     })();
   }, []);
 
+  // Benzersiz place_id'ye göre filtreleme fonksiyonu
+  function getUniquePlaces(places: any[]) {
+    const seen = new Set();
+    return places.filter((place) => {
+      const key = place.place_id + '-' + place.type;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   const fetchNearbyPlaces = async (coords: { latitude: number; longitude: number }) => {
     try {
       const apiKey = Constants.expoConfig?.extra?.GOOGLE_PLACES_API_KEY;
@@ -62,9 +73,9 @@ export default function MapScreen() {
           showsUserLocation={true}
         >
           <Marker coordinate={location} title="Şu Anki Konum" />
-          {places.map((place, idx) => (
+          {getUniquePlaces(places).map((place, idx) => (
             <Marker
-              key={place.place_id || idx}
+              key={place.place_id + '-' + place.type}
               coordinate={{
                 latitude: place.geometry.location.lat,
                 longitude: place.geometry.location.lng,
