@@ -7,6 +7,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -29,7 +30,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Anasyafa',
+          title: 'Anasayfa',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
@@ -44,14 +45,19 @@ export default function TabLayout() {
         name="health-info"
         options={{
           title: 'Bilgilerim',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.fill" color={color} />,
+          //tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.right" color={color} />,
+        tabBarIcon: ({ color, size }) => <MaterialIcons name="info" size={size} color={color} />,
+        
         }}
       />
       <Tabs.Screen
         name="contacts"
         options={{
           title: 'Kişilerim',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.right" color={color} />,
+          //tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.right" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="contacts" size={size} color={color} /> // Acil Kişi Listesi için çalışan ikon
+          ),
         }}
       />
     </Tabs>
